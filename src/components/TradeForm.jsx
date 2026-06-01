@@ -4,8 +4,8 @@ const WEB_APP_URL =
   "https://script.google.com/macros/s/AKfycbwY2BF4b1Xf55F6hUAXSJzw7tYxBnJbjxw5QxDYo_18zc_1QOVJ4KoM-SYIbxPKHaEoaw/exec";
 
 export default function TradeForm() {
-  const [saved, setSaved] = useState(false);
-
+  const [saved, setSaved] = useState(false);    
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     tradeName: "",
     date: new Date().toISOString().split("T")[0],
@@ -43,41 +43,49 @@ export default function TradeForm() {
     });
   };
 
-  const submitTrade = async () => {
-    try {
-      await fetch(WEB_APP_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+ const submitTrade = async () => {
 
-      setSaved(true);
+  if (!formData.tradeName.trim()) {
+    setError("⚠️ Trade Name is required");
+    return;
+  }
 
-      setTimeout(() => {
-        setSaved(false);
-      }, 2000);
+  if (!formData.pair.trim()) {
+    setError("⚠️ Pair is required");
+    return;
+  }
 
-      setFormData({
-        tradeName: "",
-        date: new Date().toISOString().split("T")[0],
-        pair: "",
-        bias4h: "YES",
-        immediateBias: "YES",
-        liquidity: "YES",
-        markPoi: "YES",
-        poiMitigated: "YES",
-        lqSweep: "YES",
-        ltfMs: "YES",
-        entry: "YES",
-        result: "WIN",
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  setError("");
+
+  try {
+
+    await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+
+    alert("✅ Trade Saved Successfully");
+
+    setFormData({
+      tradeName: "",
+      date: new Date().toISOString().split("T")[0],
+      pair: "",
+      bias4h: "YES",
+      immediateBias: "YES",
+      liquidity: "YES",
+      markPoi: "YES",
+      poiMitigated: "YES",
+      lqSweep: "YES",
+      ltfMs: "YES",
+      entry: "YES",
+      result: "WIN",
+    });
+
+  } catch (err) {
+    alert("❌ Error Saving Trade");
+    console.error(err);
+  }
+};
 
   return (
     <>
@@ -216,7 +224,11 @@ export default function TradeForm() {
           ))}
 
         </div>
-
+        {error && (
+  <div className="error-box">
+    {error}
+  </div>
+)}
         <button
           className="save-btn"
           onClick={submitTrade}
