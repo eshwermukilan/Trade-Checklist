@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbwY2BF4b1Xf55F6hUAXSJzw7tYxBnJbjxw5QxDYo_18zc_1QOVJ4KoM-SYIbxPKHaEoaw/exec";
+  "https://script.google.com/macros/s/AKfycbx3b8HedFCZN_cIffe-vHEXCxRMn-HTxIuAdC27EtoSYQKCGJklgQJx5bkK4n_MoOCdUA/exec";
 
 export default function TradeForm() {
   const [saved, setSaved] = useState(false);    
