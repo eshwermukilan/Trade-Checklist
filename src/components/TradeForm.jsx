@@ -19,7 +19,7 @@ const [formData, setFormData] = useState({
   lqSweep: "",
   ltfMs: "",
   entry: "",
-
+  news: "",
   result: "",
 });
 
@@ -32,6 +32,7 @@ const [formData, setFormData] = useState({
     ["LQ Sweep", "lqSweep"],
     ["LTF MS", "ltfMs"],
     ["Entry", "entry"],
+    ["News", "news"],
   ];
 
   const score = checklistItems.filter(
@@ -66,6 +67,7 @@ const submitTrade = async () => {
     formData.lqSweep,
     formData.ltfMs,
     formData.entry,
+    formData.news,
   ];
 
   if (checks.some(item => item === "")) {
@@ -94,21 +96,22 @@ const submitTrade = async () => {
     }, 2000);
 
     setFormData({
-      tradeName: "",
-      date: new Date().toISOString().split("T")[0],
-      pair: "",
+  tradeName: "",
+  date: new Date().toISOString().split("T")[0],
+  pair: "",
 
-      bias4h: "",
-      immediateBias: "",
-      liquidity: "",
-      markPoi: "",
-      poiMitigated: "",
-      lqSweep: "",
-      ltfMs: "",
-      entry: "",
+  bias4h: "",
+  immediateBias: "",
+  liquidity: "",
+  markPoi: "",
+  poiMitigated: "",
+  lqSweep: "",
+  ltfMs: "",
+  entry: "",
+  news: "",
 
-      result: "",
-    });
+  result: "",
+});
 
   } catch (err) {
     setError("❌ Error Saving Trade");
@@ -159,14 +162,14 @@ const submitTrade = async () => {
         </div>
 
         <div className="score-card">
-          <h2>{score}/8</h2>
+          <h2>{score}/9</h2>
 
           <span>
   {score === 0
     ? "Start Checklist 🚀"
-    : score === 8
+    : score === 9
     ? "Perfect Setup 🔥"
-    : score >= 6
+    : score >= 7
     ? "A Grade Setup ✅"
     : score >= 4
     ? "Average Setup ⚠️"
