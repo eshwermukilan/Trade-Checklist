@@ -6,20 +6,22 @@ const WEB_APP_URL =
 export default function TradeForm() {
   const [saved, setSaved] = useState(false);    
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState({
-    tradeName: "",
-    date: new Date().toISOString().split("T")[0],
-    pair: "",
-    bias4h: "YES",
-    immediateBias: "YES",
-    liquidity: "YES",
-    markPoi: "YES",
-    poiMitigated: "YES",
-    lqSweep: "YES",
-    ltfMs: "YES",
-    entry: "YES",
-    result: "WIN",
-  });
+const [formData, setFormData] = useState({
+  tradeName: "",
+  date: new Date().toISOString().split("T")[0],
+  pair: "",
+
+  bias4h: "",
+  immediateBias: "",
+  liquidity: "",
+  markPoi: "",
+  poiMitigated: "",
+  lqSweep: "",
+  ltfMs: "",
+  entry: "",
+
+  result: "",
+});
 
   const checklistItems = [
     ["4H Bias", "bias4h"],
@@ -43,7 +45,7 @@ export default function TradeForm() {
     });
   };
 
- const submitTrade = async () => {
+const submitTrade = async () => {
 
   if (!formData.tradeName.trim()) {
     setError("⚠️ Trade Name is required");
@@ -52,6 +54,27 @@ export default function TradeForm() {
 
   if (!formData.pair.trim()) {
     setError("⚠️ Pair is required");
+    return;
+  }
+
+  const checks = [
+    formData.bias4h,
+    formData.immediateBias,
+    formData.liquidity,
+    formData.markPoi,
+    formData.poiMitigated,
+    formData.lqSweep,
+    formData.ltfMs,
+    formData.entry,
+  ];
+
+  if (checks.some(item => item === "")) {
+    setError("⚠️ Complete all checklist items");
+    return;
+  }
+
+  if (!formData.result) {
+    setError("⚠️ Select trade result");
     return;
   }
 
@@ -64,25 +87,31 @@ export default function TradeForm() {
       body: JSON.stringify(formData),
     });
 
-    alert("✅ Trade Saved Successfully");
+    setSaved(true);
+
+    setTimeout(() => {
+      setSaved(false);
+    }, 2000);
 
     setFormData({
       tradeName: "",
       date: new Date().toISOString().split("T")[0],
       pair: "",
-      bias4h: "YES",
-      immediateBias: "YES",
-      liquidity: "YES",
-      markPoi: "YES",
-      poiMitigated: "YES",
-      lqSweep: "YES",
-      ltfMs: "YES",
-      entry: "YES",
-      result: "WIN",
+
+      bias4h: "",
+      immediateBias: "",
+      liquidity: "",
+      markPoi: "",
+      poiMitigated: "",
+      lqSweep: "",
+      ltfMs: "",
+      entry: "",
+
+      result: "",
     });
 
   } catch (err) {
-    alert("❌ Error Saving Trade");
+    setError("❌ Error Saving Trade");
     console.error(err);
   }
 };
@@ -133,14 +162,16 @@ export default function TradeForm() {
           <h2>{score}/8</h2>
 
           <span>
-            {score === 8
-              ? "Perfect Setup 🔥"
-              : score >= 6
-              ? "A Grade Setup ✅"
-              : score >= 4
-              ? "Average Setup ⚠️"
-              : "Poor Setup ❌"}
-          </span>
+  {score === 0
+    ? "Start Checklist 🚀"
+    : score === 8
+    ? "Perfect Setup 🔥"
+    : score >= 6
+    ? "A Grade Setup ✅"
+    : score >= 4
+    ? "Average Setup ⚠️"
+    : "Poor Setup ❌"}
+</span>
         </div>
 
         <div className="checklist-grid">
