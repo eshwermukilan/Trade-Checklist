@@ -7,7 +7,6 @@ export default function TradeForm() {
   const [saved, setSaved] = useState(false);    
   const [error, setError] = useState("");
 const [formData, setFormData] = useState({
-  tradeName: "",
   date: new Date().toISOString().split("T")[0],
   pair: "",
 
@@ -20,7 +19,7 @@ const [formData, setFormData] = useState({
   ltfMs: "",
   entry: "",
   news: "",
-  result: "",
+  
 });
 
   const checklistItems = [
@@ -48,10 +47,7 @@ const [formData, setFormData] = useState({
 
 const submitTrade = async () => {
 
-  if (!formData.tradeName.trim()) {
-    setError("⚠️ Trade Name is required");
-    return;
-  }
+
 
   if (!formData.pair.trim()) {
     setError("⚠️ Pair is required");
@@ -75,10 +71,7 @@ const submitTrade = async () => {
     return;
   }
 
-  if (!formData.result) {
-    setError("⚠️ Select trade result");
-    return;
-  }
+
 
   setError("");
 
@@ -96,7 +89,7 @@ const submitTrade = async () => {
     }, 2000);
 
     setFormData({
-  tradeName: "",
+
   date: new Date().toISOString().split("T")[0],
   pair: "",
 
@@ -110,7 +103,7 @@ const submitTrade = async () => {
   entry: "",
   news: "",
 
-  result: "",
+
 });
 
   } catch (err) {
@@ -130,19 +123,11 @@ const submitTrade = async () => {
       <div className="form-card">
 
         <div className="dashboard-title">
-          <h2><strong>Checklist Dashboard</strong></h2>
+          <h2><strong>Trade Validation Dashboard</strong></h2>
           <p>Review every executed trade</p>
         </div>
 
         <div className="top-grid">
-
-          <input
-            type="text"
-            name="tradeName"
-            placeholder="Trade Name"
-            value={formData.tradeName}
-            onChange={handleChange}
-          />
 
           <input
             type="date"
@@ -227,37 +212,7 @@ const submitTrade = async () => {
 
         </div>
 
-        <h3
-          style={{
-            marginTop: "30px",
-            marginBottom: "15px",
-          }}
-        >
-          Trade Result
-        </h3>
-
-        <div className="result-grid">
-
-          {["WIN", "LOSS", "BE"].map((item) => (
-            <div
-              key={item}
-              className={
-                formData.result === item
-                  ? "result-card active-result"
-                  : "result-card"
-              }
-              onClick={() =>
-                setFormData({
-                  ...formData,
-                  result: item,
-                })
-              }
-            >
-              {item}
-            </div>
-          ))}
-
-        </div>
+        
         {error && (
   <div className="error-box">
     {error}
